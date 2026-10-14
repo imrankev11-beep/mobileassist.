@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elite Protection | Sarajevo BBC</title>
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --accent: #ff00e1;
+            --bg: #050507;
+            --card-bg: #12121a;
+            --text: #ffffff;
+            --text-muted: #a0a0a0;
+            --gold: #ffcc00;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Effects */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #111122 0%, #050507 100%);
+        }
+
+        .orb {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.15) 0%, transparent 70%);
+            filter: blur(60px);
+            animation: floatOrb 20s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        .orb-1 { top: -200px; left: -200px; }
+        .orb-2 { bottom: -200px; right: -200px; background: radial-gradient(circle, rgba(112, 0, 255, 0.15) 0%, transparent 70%); }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 100px) scale(1.2); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Top Info Banner */
+        .top-info {
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease-out;
+            position: relative;
+            z-index: 5;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .clock-icon {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Interactive Featured Phones Section --- */
+        .featured-phones {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 15px;
+            margin-bottom: 60px;
+            perspective: 1000px;
+            animation: fadeIn 1s ease-out;
+            flex-wrap: wrap;
+        }
+
+        .phone-showcase {
+            position: relative;
+            width: 130px;
+            height: 260px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 6px solid #222;
+        }
+
+        .phone-showcase:hover {
+            transform: translateY(-20px) scale(1.05) rotateY(10deg);
+            box-shadow: 0 30px 60px rgba(0, 242, 255, 0.2);
+        }
+
+        .phone-showcase:active {
+            transform: scale(0.95);
+        }
+
+        .case-clear {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, #2a2a2a, #000);
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.1), 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        .case-white {
+            border-color: #eee;
+            background: linear-gradient(135deg, #fff, #ddd);
+            color: #333;
+        }
+
+        .case-multicolor {
+            border-color: #fff;
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            background-size: 400% 400%;
+            animation: rainbowBG 8s ease infinite;
+        }
+
+        .case-custom {
+            border-color: var(--accent);
+            background: linear-gradient(45deg, #ff00e1, #7000ff, #00f2ff);
+            background-size: 400% 400%;
+            animation: gradientBG 5s ease infinite;
+        }
+
+        @keyframes rainbowBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .case-label {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
+            padding: 0 5px;
+        }
+
+        /* --- Case Selection Grid --- */
+        .grid-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .grid-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .grid-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.1);
+            background: rgba(0, 242, 255, 0.02);
+        }
+
+        .case-thumb {
+            width: 50px;
+            height: 90px;
+            margin: 0 auto 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .thumb-matte-black { background: linear-gradient(135deg, #333, #000); }
+        .thumb-ocean-blue { background: linear-gradient(135deg, #004e92, #000428); }
+        .thumb-cyber-pink { background: linear-gradient(135deg, #ff00e1, #7000ff); }
+        .thumb-titanium { background: linear-gradient(135deg, #8e8e8e, #444); }
+        .thumb-clear { background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.3); }
+
+        /* --- Interactive Price Section --- */
+        .price-wrapper {
+            margin: 60px 0;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .price-wrapper:hover {
+            transform: scale(1.1);
+        }
+
+        .price-display {
+            font-size: clamp(3rem, 15vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.4));
+            font-variant-numeric: tabular-nums;
+            transition: all 0.3s ease;
+        }
+
+        .price-subtext {
+            display: block;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: var(--text-muted);
+            font-weight: bold;
+            margin-bottom: -10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .price-wrapper:hover .price-display {
+            filter: drop-shadow(0 0 40px rgba(0, 242, 255, 0.8));
+            transform: rotate(-2deg);
+        }
+
+        /* --- Side by Side Screen Animations --- */
+        .screen-arena {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 80px 0;
+            flex-wrap: wrap;
+        }
+
+        .screen-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+        }
+
+        .phone-frame {
+            width: 180px;
+            height: 340px;
+            background: #111;
+            border: 8px solid #333;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .screen-unit:hover .phone-frame {
+            transform: scale(1.05) translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 40px 80px rgba(0, 242, 255, 0.2);
+        }
+
+        .screen-content {
+            padding: 15px;
+            color: #444;
+            font-size: 12px;
+            text-align: left;
+            transition: color 0.3s;
+        }
+
+        .screen-unit:hover .screen-content {
+            color: #aaa;
+        }
+
+        .privacy-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, #000 100%);
+            transition: all 0.4s ease;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        .screen-unit:hover .privacy-overlay {
+            opacity: 0.95;
+            transform: skewX(-10deg) scaleY(1.1);
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, #000 100%);
+        }
+
+        .normal-overlay {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(255, 255, 255, 0.15),
+                transparent
+            );
+            animation: shineDown 3s infinite linear;
+            pointer-events: none;
+            z-index: 2;
+            transition: opacity 0.3s;
+        }
+
+        .screen-unit:hover .normal-overlay {
+            opacity: 0.5;
+            animation-duration: 1s;
+        }
+
+        @keyframes shineDown {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+
+        .screen-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text);
+            transition: color 0.3s;
+        }
+
+        .screen-unit:hover .screen-title {
+            color: var(--primary);
+        }
+
+        /* Location Section */
+        .location-card {
+            margin-top: 100px;
+            background: var(--card-bg);
+            padding: 30px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .btn-route {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(112, 0, 255, 0.3);
+        }
+
+        .btn-route:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 242, 255, 0.4);
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 300px;
+            border-radius: 20px;
+            border: 0;
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-bottom: 40px;
+            color: #555;
+            font-size: 12px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body onload="initScreens()">
+
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="container">
+        <!-- Info Banner -->
+        <div class="top-info">
+            <div class="status-badge">
+                <span class="clock-icon">🕒</span> Open until 21:00 PM
+            </div>
+            <div class="rating-badge">
+                ⭐ 5.0 Google Maps Review
+            </div>
+        </div>
+
+        <!-- Interactive Featured Phones -->
+        <div class="featured-phones">
+            <div class="phone-showcase case-clear">
+                <div class="case-label">Clear Case</div>
+            </div>
+            <div class="phone-showcase case-white">
+                <div class="case-label" style="color: #666">All Colors<br>Silicone</div>
+            </div>
+            <div class="phone-showcase case-multicolor">
+                <div class="case-label" style="color: #fff">Rainbow Mix</div>
+            </div>
+            <div class="phone-showcase case-custom">
+                <div class="case-label">Custom Design</div>
+            </div>
+        </div>
+
+        <!-- Cases Grid with Colorful Thumbs -->
+        <div class="grid-section">
+            <div class="grid-card">
+                <div class="case-thumb thumb-matte-black"></div>
+                <p>Matte Black</p>
+            </div>
+            <div class="grid-card">
+                <div class="case-thumb thumb-ocean-blue"></div>
+                <p>Ocean Blue</p>
+            </div>
+            <div class="grid-card">
+                <div class="case-thumb thumb-cyber-pink"></div>
+                <p>Cyber Pink</p>
+            </div>
+            <div class="grid-card">
+                <div class="case-thumb thumb-titanium"></div>
+                <p>Titanium</p>
+            </div>
+            <div class="grid-card">
+                <div class="case-thumb thumb-clear"></div>
+                <p>Clear Gloss</p>
+            </div>
+        </div>
+
+        <!-- Interactive Price -->
+        <div class="price-wrapper" id="priceWrapper">
+            <span class="price-subtext">Starting from 15 KM</span>
+            <div class="price-display">Up to 35 KM</div>
+        </div>
+
+        <!-- Interactive Screens Comparison -->
+        <div class="screen-arena">
+            <div class="screen-unit" id="privacyUnit">
+                <div class="screen-title">Privacy Screen</div>
+                <div class="phone-frame">
+                    <div class="privacy-overlay" id="privacyOverlay"></div>
+                    <div class="screen-content">
+                        <strong>Messages</strong><br>
+                        Private chat 1...<br>
+                        Bank details...<br>
+                        Hidden text...
+                    </div>
+                </div>
+            </div>
+            <div class="screen-unit" id="normalUnit">
+                <div class="screen-title">Normal Screen</div>
+                <div class="phone-frame">
+                    <div class="normal-overlay" id="normalOverlay"></div>
+                    <div class="screen-content" style="color: #aaa;">
+                        <strong>Messages</strong><br>
+                        Hello friend!<br>
+                        Check out this view...<br>
+                        Perfect clarity...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location -->
+        <div class="location-card">
+            <h2 style="margin-bottom: 10px;">Find Us in Sarajevo BBC</h2>
+            <a href="https://www.google.com/maps/dir//Sarajevo+BBC" target="_blank" class="btn-route">Get Directions 📍</a>
+            <iframe
+                class="map-frame"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2914.567890123456!2d18.4123456789!3d43.8567890123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134b111111111111%3A0x2222222222222222!2sSarajevo+BBC!5e0!3m2!1sen!2sba!4v1700000000000!5m2!1sen!2sba"
+                allowfullscreen="" loading="lazy">
+            </iframe>
+        </div>
+
+        <footer>
+            &copy; 2026 Elite Protection Sarajevo. Quality Guaranteed.
+        </footer>
+    </div>
+
+    <script>
+        function initScreens() {
+            const privacyUnit = document.getElementById('privacyUnit');
+            const privacyOverlay = document.getElementById('privacyOverlay');
+            const normalUnit = document.getElementById('normalUnit');
+            const normalOverlay = document.getElementById('normalOverlay');
+
+            if (privacyUnit && privacyOverlay) {
+                privacyUnit.addEventListener('mousemove', (e) => {
+                    const rect = privacyUnit.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width;
+                    const y = (e.clientY - rect.top) / rect.height;
+                    privacyOverlay.style.transform = `skewX(${(x - 0.5) * 20}deg) scaleY(${1 + (y * 0.1)})`;
+                    privacyOverlay.style.opacity = 0.5 + (x * 0.5);
+                });
+
+                privacyUnit.addEventListener('mouseleave', () => {
+                    privacyOverlay.style.transform = 'skewX(0deg) scaleY(1)';
+                    privacyOverlay.style.opacity = '0.7';
+                });
+            }
+
+            if (normalUnit && normalOverlay) {
+                normalUnit.addEventListener('mousemove', (e) => {
+                    const rect = normalUnit.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width;
+                    normalOverlay.style.left = `${(x * 100) - 50}%`;
+                });
+
+                normalUnit.addEventListener('mouseleave', () => {
+                    normalOverlay.style.left = '0';
+                });
+            }
+        }
+    </script>
+</body>
+</html>
